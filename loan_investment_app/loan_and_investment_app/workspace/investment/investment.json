@@ -1,0 +1,194 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"hdr1\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Portfolio Oversight &amp; Capital Health</b></span>\", \"col\": 12}}, {\"id\": \"c1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active AUM (Total Invested)\", \"col\": 3}}, {\"id\": \"c2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active Investment Contracts\", \"col\": 3}}, {\"id\": \"c3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Matured Portfolio (Unsettled)\", \"col\": 3}}, {\"id\": \"c4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Maturing in 30 Days\", \"col\": 3}}, {\"id\": \"sp1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"hdr_ops\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Operational Queues</b></span>\", \"col\": 12}}, {\"id\": \"c5\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Payout Requests\", \"col\": 3}}, {\"id\": \"c6\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Investor Inquiries\", \"col\": 3}}, {\"id\": \"sp2\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"hdr2\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Quick Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"s1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Investments\", \"col\": 3}}, {\"id\": \"s2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Member\", \"col\": 3}}, {\"id\": \"s3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Investments Report\", \"col\": 3}}, {\"id\": \"s4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Maturity & Rollover Report\", \"col\": 3}}, {\"id\": \"sp3\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"hdr3\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Masters &amp; Transactions</b></span>\", \"col\": 12}}, {\"id\": \"cd1\", \"type\": \"card\", \"data\": {\"card_name\": \"Operations & Transactions\", \"col\": 4}}, {\"id\": \"cd2\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports & Reconciliation\", \"col\": 4}}, {\"id\": \"cd3\", \"type\": \"card\", \"data\": {\"card_name\": \"Investor Relations & Support\", \"col\": 4}}]",
+ "creation": "2024-09-16 17:07:38.813531",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "income",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Investment",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Operations & Transactions",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "Investment App",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Investment Contracts",
+   "link_count": 0,
+   "link_to": "Investment App",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Member",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Investor Registry (Members)",
+   "link_count": 0,
+   "link_to": "Member",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Investment Settings",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Investment Settings",
+   "link_count": 0,
+   "link_to": "Investment Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports & Reconciliation",
+   "link_count": 0,
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Investments Report",
+   "link_count": 0,
+   "link_to": "Investment Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "General Ledger",
+   "link_count": 0,
+   "link_to": "General Ledger",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Accounts Payable Summary",
+   "link_count": 0,
+   "link_to": "Accounts Payable Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Investor Relations & Support",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Maturity & Rollover Report",
+   "link_count": 0,
+   "link_to": "Investment Maturity and Rollover Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "Issue",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Investor Support Tickets",
+   "link_count": 0,
+   "link_to": "Issue",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-09-29 11:04:23.930113",
+ "modified_by": "Administrator",
+ "module": "Loan and Investment App",
+ "name": "Investment",
+ "number_cards": [
+  {
+   "label": "Active AUM (Total Invested)",
+   "number_card_name": "Active AUM (Total Invested)"
+  },
+  {
+   "label": "Active Investment Contracts",
+   "number_card_name": "Active Investment Contracts"
+  },
+  {
+   "label": "Matured Portfolio (Unsettled)",
+   "number_card_name": "Matured Portfolio (Unsettled)"
+  },
+  {
+   "label": "Maturing in 30 Days",
+   "number_card_name": "Maturing in 30 Days"
+  },
+  {
+   "label": "Pending Payout Requests",
+   "number_card_name": "Pending Payout Requests"
+  },
+  {
+   "label": "Open Investor Inquiries",
+   "number_card_name": "Open Investor Inquiries"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 35.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Investments",
+   "link_to": "Investment App",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Member",
+   "link_to": "Member",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "Report Builder",
+   "label": "Investments Report",
+   "link_to": "Investment Report",
+   "type": "Report"
+  },
+  {
+   "color": "Red",
+   "doc_view": "Report Builder",
+   "label": "Maturity & Rollover Report",
+   "link_to": "Investment Maturity and Rollover Report",
+   "type": "Report"
+  }
+ ],
+ "title": "Investment"
+}

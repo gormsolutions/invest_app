@@ -42,82 +42,67 @@ def get_logged_in_user_info():
     return user_info2
 
 def get_context(context, posting_date=None):
-    from frappe.utils import flt, nowdate
-    import frappe
-
-    # Get logged-in user info
+    # Get the logged-in user's information
     user_info = get_logged_in_user_info()
-    specific_party = user_info.get('member')
+    specific_party = user_info['member']  # Filter by the logged-in user's member
+    
+    frappe.logger().debug(f"User Info: {user_info}")
+    frappe.logger().debug(f"Specific Party: {specific_party}")
 
-    # Fetch all investment records
-    raw_records = frappe.get_all(
-        'Investment App',
-        fields=[
-            'name', 'party_name', 'party', 'posting_date',
-            'transaction_type', 'amount',
-            'investment_status', 'investment_progression'
-        ],
-        filters={
-            'party': specific_party,
-            'transaction_type': ['in', ['Re-invest', 'Invest']],
-            'docstatus': ['!=', 2]
-        },
-        limit_page_length=100
-    )
-
-    # Remove withdrawn approved investments
-    investments = [
-        r for r in raw_records
-        if not (r.investment_status == 'Approved' and r.investment_progression == 'Withdrawn')
-    ]
-
-    # Fetch withdrawn investments (Approved only)
-    investments_withdrawn = frappe.get_all(
+    # Fetch report data from the 'Investment App' doctype for the specific party
+    investments = frappe.get_list(
         'Investment App',
         fields=['name', 'party_name', 'party', 'posting_date', 'transaction_type', 'amount'],
         filters={
             'party': specific_party,
-            'transaction_type': 'Withdraw',
-            'docstatus': ['!=', 2],
+            'transaction_type': ['in', ['Re-invest', 'Invest']],
+            'docstatus': ['!=', 2],  # Exclude canceled records
             'investment_status': 'Approved'
         },
         limit_page_length=50
     )
+    
+    frappe.logger().debug(f"Found Investments: {investments}")
 
-    # Initialize totals
     total_interest = 0
+    total_available = 0
     total_principal = 0
-    total_withdrawn = 0
 
-    # Add schedules to each investment
-    for inv in investments:
+    current_date = nowdate()
+    frappe.logger().debug(f"Current Date: {current_date}")
+
+    # Fetch investment schedule for each investment
+    for investment in investments:
         schedules = frappe.get_all(
             'Investment Schedule',
             fields=['start_date', 'end_date', 'principal_amount', 'amount', 'available_amount', 'posted_status'],
             filters={
-                'parent': inv['name'],
-                'posted_status': ['in', ['Posted', 'Pending']]
+                'parent': investment['name'],
+                'posted_status': ['in', ['Posted', 'Pending']]  # Only fetch posted schedules
             }
         )
-        inv['investment_schedule'] = schedules
-        for s in schedules:
-            total_interest += flt(s['amount'])
-            total_principal += flt(s['principal_amount'])
+        frappe.logger().debug(f"Found posted schedules for {investment['name']}: {schedules}")
 
-    # Withdrawn total
-    for w in investments_withdrawn:
-        total_withdrawn += flt(w['amount'])
+        # Add all posted schedules
+        investment['investment_schedule'] = []
+        for schedule in schedules:
+            try:
+                investment['investment_schedule'].append(schedule)
+                total_interest += flt(schedule['amount'])
+                total_available += flt(schedule['available_amount'])
+                total_principal += flt(schedule['principal_amount'])
+            except Exception as e:
+                frappe.logger().error(f"Error processing schedule: {str(e)}")
 
-    # Final available
-    # total_available = total_principal + total_interest - total_withdrawn
-    total_available = flt(round(total_principal + total_interest - total_withdrawn), 0)
+        frappe.logger().debug(f"Added posted schedules for {investment['name']}: {investment['investment_schedule']}")
 
-    # Pass to context
+    available_amount = total_principal + total_interest
+    
+    
+    frappe.logger().debug(f"Totals - Principal: {total_principal}, Interest: {total_interest}, Available: {available_amount}")
+
     context.report_data = investments
     context.total_interest = total_interest
+    context.total_available = available_amount
     context.total_principal = total_principal
-    context.total_available = total_available
-    context.total_withdrawn = total_withdrawn
     context.title = "Investment Schedule Report"
-    context.my_status = "Approved"
-

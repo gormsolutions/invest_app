@@ -1,0 +1,788 @@
+{% extends "templates/web.html" %}
+
+{% block title %}Investor Portal | Abdul Metro Group Limited{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --metro-navy: #3E4095;
+  --metro-navy-dark: #2A2C6B;
+  --metro-navy-soft: rgba(62, 64, 149, 0.08);
+  --metro-red: #ED3237;
+  --metro-red-soft: rgba(237, 50, 55, 0.08);
+  --text-dark: #1E204D;
+  --text-muted: #5A607F;
+  --bg-page: #F8FAFD;
+  --card-border: rgba(62, 64, 149, 0.12);
+  --card-shadow: 0 4px 16px rgba(62, 64, 149, 0.05);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  color: var(--text-dark);
+  background-color: var(--bg-page);
+}
+
+.portal-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 20px 48px 20px;
+}
+
+/* Guest Splash */
+.guest-card {
+  max-width: 540px;
+  margin: 60px auto;
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 36px 32px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(62, 64, 149, 0.08);
+}
+.guest-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--metro-navy-soft);
+  color: var(--metro-navy);
+  font-size: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+/* Staff Preview Bar */
+.staff-preview-bar {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+}
+
+/* Investor Header Profile */
+.investor-hero-card {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 20px;
+}
+.investor-badge-verified {
+  background: rgba(5, 150, 105, 0.1);
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  padding: 3px 10px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* KPI Summary Cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--metro-navy);
+}
+.kpi-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.kpi-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+.kpi-sub {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Tabs */
+.portal-tabs-nav {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #E2E8F0;
+  margin-bottom: 18px;
+  overflow-x: auto;
+}
+.portal-tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.portal-tab-btn.active {
+  color: var(--metro-navy);
+  border-bottom-color: var(--metro-navy);
+}
+.portal-tab-content {
+  display: none;
+}
+.portal-tab-content.active {
+  display: block;
+}
+
+/* Modern Card Tables */
+.table-card {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+.table-responsive {
+  margin: 0;
+}
+.table-portal {
+  width: 100%;
+  margin-bottom: 0;
+  font-size: 13px;
+}
+.table-portal th {
+  background: #F8FAFD;
+  border-bottom: 1px solid #E2E8F0;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+}
+.table-portal td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  border-top: 1px solid #F1F5F9;
+  color: var(--text-dark);
+}
+
+.status-pill {
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.status-active { background: rgba(5, 150, 105, 0.1); color: #059669; }
+.status-matured { background: rgba(217, 119, 6, 0.1); color: #D97706; }
+.status-posted { background: rgba(62, 64, 149, 0.1); color: var(--metro-navy); }
+.status-pending { background: #F1F5F9; color: #64748B; }
+
+/* Buttons */
+.btn-action-sm {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+}
+.btn-download-cert {
+  background: var(--metro-navy-soft);
+  color: var(--metro-navy) !important;
+  border: 1px solid rgba(62, 64, 149, 0.2);
+}
+.btn-download-cert:hover {
+  background: var(--metro-navy);
+  color: #FFFFFF !important;
+}
+
+/* Modal styles */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show {
+  display: flex;
+}
+.modal-box {
+  background: #FFFFFF;
+  border-radius: 12px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-body {
+  padding: 20px;
+}
+.modal-footer {
+  padding: 14px 20px;
+  background: #F8FAFD;
+  border-top: 1px solid #E2E8F0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style>
+
+<div class="portal-container">
+
+  {% if is_guest %}
+  <!-- GUEST SIGN-IN PROMPT -->
+  <div class="guest-card">
+    <div class="guest-icon">
+      <i class="fa fa-chart-line"></i>
+    </div>
+    <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">AMGL Investor Portal</h2>
+    <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px;">
+      Welcome to the private wealth and investor self-service portal for Abdul Metro Group Limited (AMGL). Please sign in with your authorized investor account to view your portfolio, returns, and investment schedules.
+    </p>
+    <a href="{{ login_url }}" class="btn btn-primary btn-block p-2" style="background: var(--metro-navy); font-weight: 700; border-radius: 6px;">
+      <i class="fa fa-sign-in-alt mr-2"></i> Sign In to Investor Portal
+    </a>
+  </div>
+
+  {% elif not has_investor_profile %}
+  <!-- NO LINKED PROFILE -->
+  <div class="guest-card">
+    <div class="guest-icon text-warning">
+      <i class="fa fa-user-clock"></i>
+    </div>
+    <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Profile Pending Verification</h2>
+    <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px;">
+      Logged in as <strong>{{ user_email }}</strong>.<br>
+      No active investor membership record is currently linked to your email address. If you recently invested, your profile may be undergoing compliance verification.
+    </p>
+    <a href="/contact" class="btn btn-outline-secondary btn-sm">
+      <i class="fa fa-envelope mr-1"></i> Contact Investor Relations
+    </a>
+    {% if is_staff %}
+    <div class="mt-3">
+      <a href="/app/investment" class="btn btn-sm btn-primary" style="background: var(--metro-navy);">
+        <i class="fa fa-desktop mr-1"></i> Open Desk Investment Workspace
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  {% else %}
+  <!-- AUTHENTICATED INVESTOR DASHBOARD -->
+
+  {% if is_staff and all_investors %}
+  <!-- Staff/Admin Switcher Bar -->
+  <div class="staff-preview-bar">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fa fa-user-shield text-primary"></i>
+      <span><strong>Management Preview Mode:</strong> Viewing as <strong>{{ profile.member_name }}</strong></span>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <select class="form-control form-control-sm" style="width: auto; max-width: 250px;" onchange="window.location.href='/investment-app?party=' + this.value">
+        {% for inv_m in all_investors %}
+        <option value="{{ inv_m.name }}" {% if inv_m.name == current_party %}selected{% endif %}>
+          {{ inv_m.member_name }}
+        </option>
+        {% endfor %}
+      </select>
+      <a href="/app/investment" class="btn btn-sm btn-outline-primary" style="font-weight: 600;">
+        <i class="fa fa-desktop mr-1"></i> Desk Workspace
+      </a>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Top Investor Header Profile -->
+  <div class="investor-hero-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 16px;">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <h1 style="font-size: 20px; font-weight: 800; margin: 0; color: var(--text-dark);">
+            {{ profile.member_name }}
+          </h1>
+          <span class="investor-badge-verified">
+            <i class="fa fa-shield-alt"></i> Verified Investor
+          </span>
+        </div>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin: 0;">
+          Investor ID: <strong>{{ profile.member }}</strong> • Email: {{ profile.email_id or frappe.session.user }}
+          {% if profile.custom_investor_bank_name %}
+          • Payout Bank: {{ profile.custom_investor_bank_name }} ({{ profile.custom_investor_account_number or '***' }})
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <button type="button" class="btn-action-sm" onclick="openInquiryModal()" style="background: var(--metro-navy); color: #fff;">
+          <i class="fa fa-comment-dots"></i> Request Clarification
+        </button>
+        <button type="button" class="btn-action-sm btn-outline-secondary" onclick="window.location.reload();" title="Refresh Portfolio Data">
+          <i class="fa fa-sync-alt"></i> Refresh
+        </button>
+        <a href="/?cmd=web_logout" class="btn-action-sm btn-outline-secondary" style="color: #dc2626; border-color: rgba(220, 38, 38, 0.3); text-decoration: none;" title="Sign out of Investor Portal">
+          <i class="fa fa-sign-out-alt"></i> Sign Out
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 Summary KPI Cards -->
+  <div class="kpi-grid">
+    <!-- 1. Active Principal -->
+    <div class="kpi-card">
+      <div class="kpi-label">
+        <span>Active Principal</span>
+        <i class="fa fa-coins text-primary"></i>
+      </div>
+      <div class="kpi-value text-primary">
+        ₦{{ '{:,.2f}'.format(metrics.total_active_principal) }}
+      </div>
+      <p class="kpi-sub">
+        Across <strong>{{ metrics.active_contracts_count }}</strong> active contract(s)
+      </p>
+    </div>
+
+    <!-- 2. Active / Current Accrued Returns -->
+    <div class="kpi-card">
+      <div class="kpi-label">
+        <span>Current Accrued Returns</span>
+        <i class="fa fa-chart-line text-success"></i>
+      </div>
+      <div class="kpi-value text-success">
+        ₦{{ '{:,.2f}'.format(metrics.active_accrued_returns) }}
+      </div>
+      <p class="kpi-sub">
+        Accrued on active portfolio (₦{{ '{:,.2f}'.format(metrics.active_expected_returns) }} expected at maturity)
+      </p>
+    </div>
+
+    <!-- 3. Total Lifetime Returns -->
+    <div class="kpi-card">
+      <div class="kpi-label">
+        <span>Total Returns Settled</span>
+        <i class="fa fa-history" style="color: #6366F1;"></i>
+      </div>
+      <div class="kpi-value" style="color: #374151;">
+        ₦{{ '{:,.2f}'.format(metrics.total_accrued_returns) }}
+      </div>
+      <p class="kpi-sub">
+        Cumulative interest credited across all investments
+      </p>
+    </div>
+
+    <!-- 4. Liquid Wallet Balance -->
+    <div class="kpi-card">
+      <div class="kpi-label">
+        <span>Available Wallet</span>
+        <i class="fa fa-wallet text-warning"></i>
+      </div>
+      <div class="kpi-value">
+        ₦{{ '{:,.2f}'.format(metrics.wallet_balance) }}
+      </div>
+      <p class="kpi-sub">
+        Liquid funds available for rollover or payout
+      </p>
+    </div>
+
+    <!-- 5. Next Maturity -->
+    <div class="kpi-card">
+      <div class="kpi-label">
+        <span>Next Maturity</span>
+        <i class="fa fa-calendar-check text-danger"></i>
+      </div>
+      {% if metrics.next_maturity %}
+      <div class="kpi-value" style="font-size: 19px;">
+        {{ metrics.next_maturity.date_str }}
+      </div>
+      <p class="kpi-sub text-danger">
+        Maturity Value: ₦{{ '{:,.2f}'.format(metrics.next_maturity.amount) }}
+      </p>
+      {% else %}
+      <div class="kpi-value" style="font-size: 19px; color: var(--text-muted);">-</div>
+      <p class="kpi-sub">No pending maturities</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="portal-tabs-nav">
+    <button class="portal-tab-btn active" onclick="switchPortalTab(event, 'tab-investments')">
+      <i class="fa fa-file-contract"></i> Active Investments ({{ investments|length }})
+    </button>
+    <button class="portal-tab-btn" onclick="switchPortalTab(event, 'tab-schedules')">
+      <i class="fa fa-clock"></i> Returns Schedule ({{ schedules|length }})
+    </button>
+    <button class="portal-tab-btn" onclick="switchPortalTab(event, 'tab-history')">
+      <i class="fa fa-history"></i> Transactions History ({{ transactions|length }})
+    </button>
+    <button class="portal-tab-btn" onclick="switchPortalTab(event, 'tab-inquiries')">
+      <i class="fa fa-headset"></i> Support & Inquiries ({{ inquiries|length }})
+    </button>
+  </div>
+
+  <!-- TAB 1: ACTIVE INVESTMENTS -->
+  <div id="tab-investments" class="portal-tab-content active">
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="table table-portal">
+          <thead>
+            <tr>
+              <th>Investment Ref</th>
+              <th>Start Date</th>
+              <th>Tenure</th>
+              <th>Rate (% p.a.)</th>
+              <th class="text-right">Principal Invested</th>
+              <th>Maturity Date</th>
+              <th class="text-right">Maturity Value</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inv in investments %}
+            <tr>
+              <td>
+                <strong>{{ inv.name }}</strong>
+                <div style="font-size: 11px; color: var(--text-muted);">{{ inv.transaction_type }}</div>
+              </td>
+              <td>{{ inv.start_date }}</td>
+              <td><span class="badge badge-light border">{{ inv.investment_period }}</span></td>
+              <td><strong>{{ inv.interest_rate }}%</strong></td>
+              <td class="text-right font-weight-bold">₦{{ '{:,.2f}'.format(inv.amount) }}</td>
+              <td>{{ inv.end_date }}</td>
+              <td class="text-right font-weight-bold text-primary">₦{{ '{:,.2f}'.format(inv.maturity_value) }}</td>
+              <td class="text-center">
+                <span class="status-pill {% if inv.is_matured %}status-matured{% else %}status-active{% endif %}">
+                  {{ inv.status }}
+                </span>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="8" class="text-center py-4 text-muted">
+                No active investment contracts found.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: RETURNS SCHEDULE -->
+  <div id="tab-schedules" class="portal-tab-content">
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="table table-portal">
+          <thead>
+            <tr>
+              <th>Schedule ID</th>
+              <th>Investment Contract</th>
+              <th>Period Start</th>
+              <th>Period End</th>
+              <th class="text-right">Interest Amount</th>
+              <th class="text-center">Posted Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in schedules %}
+            <tr>
+              <td><code>{{ s.name }}</code></td>
+              <td><strong>{{ s.investment }}</strong></td>
+              <td>{{ s.start_date }}</td>
+              <td>{{ s.end_date }}</td>
+              <td class="text-right font-weight-bold text-success">₦{{ '{:,.2f}'.format(s.amount) }}</td>
+              <td class="text-center">
+                <span class="status-pill {% if s.posted_status == 'Posted' %}status-posted{% else %}status-pending{% endif %}">
+                  {{ s.posted_status }}
+                </span>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">
+                No scheduled interest records available.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: TRANSACTIONS HISTORY -->
+  <div id="tab-history" class="portal-tab-content">
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="table table-portal">
+          <thead>
+            <tr>
+              <th>Reference ID</th>
+              <th>Transaction Type</th>
+              <th>Date</th>
+              <th>Tenure Range</th>
+              <th>Payment Mode</th>
+              <th class="text-right">Amount</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in transactions %}
+            <tr>
+              <td><strong>{{ t.name }}</strong></td>
+              <td>
+                <span class="badge badge-light border">{{ t.type }}</span>
+              </td>
+              <td>{{ t.date }}</td>
+              <td>{{ t.period }}</td>
+              <td>{{ t.mode }}</td>
+              <td class="text-right font-weight-bold">₦{{ '{:,.2f}'.format(t.amount) }}</td>
+              <td class="text-center">
+                <span class="status-pill status-active">{{ t.status }}</span>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">
+                No past transactions recorded.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: SUPPORT & INQUIRIES -->
+  <div id="tab-inquiries" class="portal-tab-content">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h3 style="font-size: 16px; font-weight: 800; margin: 0;">Support & Information Requests</h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Submit requests for statement clarification, contract rollovers, or payout inquiries.</p>
+      </div>
+      <button type="button" class="btn-action-sm" onclick="openInquiryModal()" style="background: var(--metro-navy); color: #fff;">
+        <i class="fa fa-plus"></i> Submit New Request
+      </button>
+    </div>
+
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="table table-portal">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Subject</th>
+              <th>Date Raised</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Management Response / Resolution</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inq in inquiries %}
+            <tr>
+              <td><strong>#{{ inq.name }}</strong></td>
+              <td><strong>{{ inq.subject }}</strong></td>
+              <td>{{ inq.date }}</td>
+              <td><span class="badge badge-secondary">{{ inq.priority }}</span></td>
+              <td>
+                <span class="status-pill {% if inq.status == 'Closed' %}status-active{% else %}status-matured{% endif %}">
+                  {{ inq.status }}
+                </span>
+              </td>
+              <td style="max-width: 300px; font-size: 12px; color: var(--text-muted);">
+                {{ inq.response }}
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">
+                No inquiries submitted yet. Need assistance? Click "Submit New Request" above.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  {% endif %}
+
+</div>
+
+<!-- INQUIRY MODAL -->
+<div class="modal-overlay" id="inquiryModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h4 style="font-size: 16px; font-weight: 800; margin: 0; color: var(--text-dark);">
+        <i class="fa fa-comment-dots text-primary mr-1"></i> Investor Support Request
+      </h4>
+      <button type="button" class="close" onclick="closeInquiryModal()">&times;</button>
+    </div>
+    <form id="inquiryForm" onsubmit="submitInquiry(event)">
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label style="font-size: 12px; font-weight: 700;">Inquiry Category <span class="text-danger">*</span></label>
+          <select class="form-control form-control-sm" id="inqCategory" required>
+            <option value="Statement Clarification">Statement & Yield Clarification</option>
+            <option value="Maturity Rollover">Maturity Rollover Inquiry</option>
+            <option value="Withdrawal Request">Withdrawal / Payout Request</option>
+            <option value="Certificate Request">Certificate Re-issue Request</option>
+            <option value="General Inquiry">General Investment Inquiry</option>
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="font-size: 12px; font-weight: 700;">Related Investment Contract (Optional)</label>
+          <select class="form-control form-control-sm" id="inqInvestment">
+            <option value="">-- General / Not Contract Specific --</option>
+            {% for inv in investments %}
+            <option value="{{ inv.name }}">{{ inv.name }} (₦{{ '{:,.0f}'.format(inv.amount) }} - Due: {{ inv.end_date }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label style="font-size: 12px; font-weight: 700;">Subject <span class="text-danger">*</span></label>
+          <input type="text" class="form-control form-control-sm" id="inqSubject" placeholder="e.g. Clarification on Q3 Interest Accrual" required>
+        </div>
+
+        <div class="form-group mb-2">
+          <label style="font-size: 12px; font-weight: 700;">Detailed Message <span class="text-danger">*</span></label>
+          <textarea class="form-control form-control-sm" id="inqMessage" rows="4" placeholder="Please describe your question, required clarification, or instruction for the AMGL team..." required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" onclick="closeInquiryModal()">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary" id="btnSubmitInquiry" style="background: var(--metro-navy);">
+          <i class="fa fa-paper-plane mr-1"></i> Send Request
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function switchPortalTab(event, tabId) {
+  event.preventDefault();
+  document.querySelectorAll('.portal-tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.portal-tab-content').forEach(content => content.classList.remove('active'));
+  
+  event.currentTarget.classList.add('active');
+  const target = document.getElementById(tabId);
+  if (target) {
+    target.classList.add('active');
+  }
+}
+
+function openInquiryModal() {
+  document.getElementById('inquiryModal').classList.add('show');
+}
+
+function closeInquiryModal() {
+  document.getElementById('inquiryModal').classList.remove('show');
+}
+
+function submitInquiry(event) {
+  event.preventDefault();
+  const btn = document.getElementById('btnSubmitInquiry');
+  const subject = document.getElementById('inqSubject').value;
+  const message = document.getElementById('inqMessage').value;
+  const category = document.getElementById('inqCategory').value;
+  const investment = document.getElementById('inqInvestment').value;
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa fa-spinner fa-spin mr-1"></i> Submitting...';
+
+  frappe.call({
+    method: 'loan_investment_app.custom_api.user.submit_investor_inquiry',
+    args: {
+      subject: subject,
+      message: message,
+      category: category,
+      investment_name: investment
+    },
+    callback: function(r) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa fa-paper-plane mr-1"></i> Send Request';
+      if (r.message && r.message.status === 'success') {
+        frappe.msgprint({
+          title: __('Inquiry Submitted'),
+          message: r.message.message,
+          indicator: 'green'
+        });
+        closeInquiryModal();
+        document.getElementById('inquiryForm').reset();
+        setTimeout(function() {
+          window.location.reload();
+        }, 1500);
+      }
+    },
+    error: function(err) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa fa-paper-plane mr-1"></i> Send Request';
+    }
+  });
+}
+</script>
+{% endblock %}

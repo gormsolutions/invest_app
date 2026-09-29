@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
+from . import __version__ as app_version
+
 app_name = "loan_investment_app"
 app_title = "Loan and Investment App"
 app_publisher = "paul"
-app_description = "for loans"
-app_email = "mututapaul01@gmail.com"
-app_license = "mit"
+app_description = "Loan and Investment App"
+app_icon = "octicon octicon-file-directory"
+app_color = "grey"
+app_email = "paul@gmail.com"
+app_license = "MIT"
 # required_apps = []
 
 # Includes in <head>
@@ -48,6 +53,10 @@ app_license = "mit"
 # role_home_page = {
 # 	"Role": "home_page"
 # }
+
+website_route_rules = [
+	{"from_route": "/investment-app", "to_route": "investor_portal"},
+]
 
 # Generators
 # ----------
@@ -123,33 +132,32 @@ app_license = "mit"
 # Hook on document methods and events
 
 doc_events = {
-	"Member": {
-		"on_update": "loan_investment_app.custom_api.member.validate_member",
-		# "on_cancel": "method",
-		# "on_trash": "method"
+	"Investment App": {
+		"on_update": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change",
+		"on_submit": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change",
+		"on_cancel": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change"
+	},
+	"Journal Entry": {
+		"on_submit": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_after_je",
+		"on_cancel": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_after_je"
 	}
 }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"loan_investment_app.tasks.all"
-# 	],
-# 	"daily": [
-# 		"loan_investment_app.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"loan_investment_app.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"loan_investment_app.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"loan_investment_app.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.post_monthly_interest",
+		"loan_investment_app.custom_api.desk.sync_contract_lifecycle"
+	],
+	"daily_long": [
+		"loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.cleanup_failed_interest_postings"
+	],
+	"hourly": [
+		"loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_investment_balances"
+	]
+}
 
 # Testing
 # -------
@@ -224,8 +232,7 @@ fixtures = [
         "filters": [
             ["module", "=", "Loan and Investment App"]
         ]
-    },
-1
+    }
 ]
 
 # Authentication and authorization
@@ -241,4 +248,7 @@ fixtures = [
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
+# Error Notifications
+error_report_email = "admin@example.com"
 

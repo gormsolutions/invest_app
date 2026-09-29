@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <title>{{ title }}</title>
 </head>
-
 <body>
     {% include "loan_investment_app/templates/includes/sidebar.html" %}
 
@@ -27,107 +25,73 @@
             <p>Total Available: {{ '{:,.2f}'.format(total_available) }}</p>
         </div>
         {% endif %}
-
+    
         {% if report_data %}
-        <div class="table-container">
-            <table class="modern-table">
-                <thead>
-                    <tr>
-                        <th class="align-right">Total Principal</th>
-                        <th class="align-right">Total Interest</th>
-                        <th class="align-right">Available Amount</th>
-                        <th class="align-right">Total Withdrawn</th>
-                        <th class="align-right">Status</th>
+            <div class="table-container">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th class="align-right">Principal Amount</th>
+                            <th class="align-right">Interest Amount</th>
+                            <th class="align-right">Available Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set found_schedules = false %}
+                        {% for investment in report_data %}
+                            {% if investment.investment_schedule %}
+                                {% set found_schedules = true %}
+                                {% for schedule in investment.investment_schedule %}
+                                <tr>
+                                    <td>{{ frappe.format_date(schedule.start_date) }}</td>
+                                    <td>{{ frappe.format_date(schedule.end_date) }}</td>
+                                    <td class="align-right">{{ '{:,.2f}'.format(schedule.principal_amount) }}</td>
+                                    <td class="align-right">{{ '{:,.2f}'.format(schedule.amount) }}</td>
+                                    <td class="align-right">{{ '{:,.2f}'.format(schedule.available_amount) }}</td>
+                                       <td><span class="status-badge status-{{ schedule.posted_status.lower() }}">
+                                            {{ schedule.posted_status }}
+                                    </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if not report_data %}
-                    <tr>
-                        <td colspan="5" class="no-data-message">
-                            <div class="empty-state">
-                                <i class="fas fa-info-circle"></i>
-                                <p>No investment schedules available</p>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endif %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_principal) }}</td>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_interest) }}</td>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_available) }}</td>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_withdrawn) }}</td>
-                        <td class="align-right total-value">{{ my_status }}</td>
+                        
+                        {% if not found_schedules %}
+                            <tr>
+                                <td colspan="6" class="no-data-message">
+                                    <div class="empty-state">
+                                        <i class="fas fa-info-circle"></i>
+                                        <p>No investment schedules available</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="total-label">Total:</td>
+                            <td class="align-right total-value">{{ '{:,.2f}'.format(total_principal) }}</td>
+                            <td class="align-right total-value">{{ '{:,.2f}'.format(total_interest) }}</td>
+                            <td class="align-right total-value">{{ '{:,.2f}'.format(total_available) }}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
 
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <table class="modern-table">
-                <thead>
-                    <tr>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th class="align-right">Principal Amount</th>
-                        <th class="align-right">Interest Amount</th>
-                        <th class="align-right">Available Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% set found_schedules = false %}
-                    {% for investment in report_data %}
-                    {% if investment.investment_schedule %}
-                    {% set found_schedules = true %}
-                    {% for schedule in investment.investment_schedule %}
-                    <tr>
-                        <td>{{ frappe.format_date(schedule.start_date) }}</td>
-                        <td>{{ frappe.format_date(schedule.end_date) }}</td>
-                        <td class="align-right">{{ '{:,.2f}'.format(schedule.principal_amount) }}</td>
-                        <td class="align-right">{{ '{:,.2f}'.format(schedule.amount) }}</td>
-                        <td class="align-right">{{ '{:,.2f}'.format(schedule.available_amount) }}</td>
-                        <td><span class="status-badge status-{{ schedule.posted_status.lower() }}">
-                                {{ schedule.posted_status }}
-                            </span>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    {% endif %}
-                    {% endfor %}
-                    {% if not found_schedules %}
-                    <tr>
-                        <td colspan="6" class="no-data-message">
-                            <div class="empty-state">
-                                <i class="fas fa-info-circle"></i>
-                                <p>No investment schedules available</p>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endif %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2" class="total-label">Total:</td>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_principal) }}</td>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_interest) }}</td>
-                        <td class="align-right total-value">{{ '{:,.2f}'.format(total_available) }}</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-
-        </div>
+            </div>
         {% else %}
-        <div class="empty-state">
-            <i class="fas fa-info-circle"></i>
-            <p>No investment data available</p>
-        </div>
+            <div class="empty-state">
+                <i class="fas fa-info-circle"></i>
+                <p>No investment data available</p>
+            </div>
         {% endif %}
     </div>
-
+    
     <style>
         :root {
             --metro-blue: #3F51B5;
@@ -283,10 +247,10 @@
             right: 0;
             bottom: 0;
             height: 1px;
-            background: linear-gradient(to right,
-                    rgba(255, 255, 255, 0.1),
-                    rgba(255, 255, 255, 0.05),
-                    transparent);
+            background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0.1), 
+                rgba(255, 255, 255, 0.05), 
+                transparent);
             transform: scaleX(0);
             transition: transform 0.3s ease;
         }
@@ -297,17 +261,9 @@
 
         /* Add subtle animation for active menu item */
         @keyframes activeGlow {
-            0% {
-                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-            }
-
-            50% {
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            }
-
-            100% {
-                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-            }
+            0% { box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+            50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+            100% { box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
         }
 
         .sidebar-menu .active a {
@@ -449,7 +405,7 @@
             .sidebar {
                 width: 240px;
             }
-
+            
             .content {
                 margin-left: 240px;
             }
@@ -458,20 +414,19 @@
 
     <script>
         // Mobile menu toggle functionality
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.mobile-menu-toggle');
             const sidebar = document.querySelector('.sidebar');
-
+            
             if (menuToggle) {
-                menuToggle.addEventListener('click', function () {
+                menuToggle.addEventListener('click', function() {
                     sidebar.classList.toggle('active');
                 });
             }
         });
     </script>
-
+    
     <script src="../../assets/loan_investment_app/js/transaction_report.js"></script>
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
 </body>
-
 </html>

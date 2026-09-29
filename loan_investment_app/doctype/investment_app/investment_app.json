@@ -1,0 +1,12 @@
+{
+ "fields": [
+  {
+   "fieldname": "total_interest_amount",
+   "fieldtype": "Currency",
+   "label": "Total Interest Amount After Tax",
+   "precision": "3",
+   "depends_on": "eval:doc.transaction_type=='Withdraw'",
+   "mandatory_depends_on": "eval:doc.transaction_type=='Withdraw'"
+  }
+ ]
+} 

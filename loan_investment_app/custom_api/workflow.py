@@ -15,7 +15,7 @@ def update_workflow_to_active(workflow_name, is_active=1):
             # Set is_active based on the provided argument (1 for active, 0 for inactive)
             workflow.is_active = is_active
             workflow.save()  # Save the changes
-            frappe.db.commit()  # Commit the transaction to the database
+            frappe.db.commit() # Commit the transaction to the database
             
             # Notify the user about the updatef"Workflow '{workflow_name}' updated to {'active' if is_active else 'inactive'} successfully."
             return 

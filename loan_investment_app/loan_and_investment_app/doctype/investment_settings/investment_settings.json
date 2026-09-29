@@ -1,28 +1,82 @@
 {
  "actions": [],
- "autoname": "autoincrement",
  "creation": "2024-08-31 14:41:35.203120",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "company_settings_section",
+  "company",
+  "cost_center",
+  "column_break_1",
+  "default_investment_period",
+  "default_interest_rate",
+  "accounts_section",
   "capital_account",
-  "investment_interest",
   "portfolio_account",
+  "column_break_2",
+  "investment_interest",
   "percent_interest_amount_account",
+  "tax_and_withdrawal_section",
   "investor_withdrawal_payable_account",
   "witholding_tax_payable",
-  "cost_center",
-  "company"
+  "column_break_3",
+  "withholding_tax_percentage",
+  "minimum_withdrawal_amount"
  ],
  "fields": [
   {
-   "fieldname": "investment_interest",
+   "fieldname": "company_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Company Settings"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Default Cost Center",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1 Year",
+   "fieldname": "default_investment_period",
+   "fieldtype": "Select",
+   "label": "Default Investment Period",
+   "options": "\n3 Months\n6 Months\n1 Year\n2 Years\n3 Years\n4 Years\n5 Years\n6 Years",
+   "reqd": 1
+  },
+  {
+   "default": "10",
+   "fieldname": "default_interest_rate",
+   "fieldtype": "Percent",
+   "label": "Default Interest Rate",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Investment Accounts"
+  },
+  {
+   "fieldname": "capital_account",
    "fieldtype": "Link",
    "in_filter": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": " Interest on Investment Account",
-   "options": "Account"
+   "label": "Investment Capital Account",
+   "options": "Account",
+   "reqd": 1
   },
   {
    "fieldname": "portfolio_account",
@@ -31,81 +85,97 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Investment Portfolio Account",
-   "options": "Account"
+   "options": "Account",
+   "reqd": 1
   },
   {
-   "fieldname": "capital_account",
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "investment_interest",
    "fieldtype": "Link",
    "in_filter": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Investment's Capital Account",
-   "options": "Account"
-  },
-  {
-   "fieldname": "cost_center",
-   "fieldtype": "Link",
-   "label": "Cost Center",
-   "options": "Cost Center"
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
+   "label": "Interest on Investment Account",
+   "options": "Account",
+   "reqd": 1
   },
   {
    "fieldname": "percent_interest_amount_account",
    "fieldtype": "Link",
-   "label": "Percent Interest Amount Account",
-   "options": "Account"
+   "label": "Interest Income Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tax_and_withdrawal_section",
+   "fieldtype": "Section Break",
+   "label": "Tax and Withdrawal Settings"
   },
   {
    "fieldname": "investor_withdrawal_payable_account",
    "fieldtype": "Link",
    "label": "Investor Withdrawal Payable Account",
-   "options": "Account"
+   "options": "Account",
+   "reqd": 1
   },
   {
    "fieldname": "witholding_tax_payable",
    "fieldtype": "Link",
-   "label": "Witholding Tax Payable (FIRS) - 10 PERCENT (Investors)",
-   "options": "Account"
+   "label": "Withholding Tax Payable Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "10",
+   "fieldname": "withholding_tax_percentage",
+   "fieldtype": "Percent",
+   "label": "Withholding Tax Percentage",
+   "reqd": 1
+  },
+  {
+   "default": "1000",
+   "fieldname": "minimum_withdrawal_amount",
+   "fieldtype": "Currency",
+   "label": "Minimum Withdrawal Amount",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "issingle": 1,
  "links": [],
- "modified": "2024-09-20 13:56:04.099972",
+ "modified": "2025-08-14 12:35:28.296274",
  "modified_by": "Administrator",
  "module": "Loan and Investment App",
  "name": "Investment Settings",
- "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [
   {
    "create": 1,
    "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "System Manager",
    "share": 1,
    "write": 1
   },
   {
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "All",
-   "select": 1,
-   "share": 1
+   "select": 1
   }
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

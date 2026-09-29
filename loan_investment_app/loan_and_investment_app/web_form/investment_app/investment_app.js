@@ -21,6 +21,7 @@ frappe.ready(function () {
                     frappe.web_form.set_value('interets_withrowned', response.message.balance_interest);
                     frappe.web_form.set_value('portifolia_account', response.message.balance_deposit);
                     frappe.web_form.set_value('adress', response.message.custom_resident);
+                     frappe.web_form.set_value('total_interest_earned', response.message.balance_interest);
                     frappe.web_form.set_value('available_amount_in_wallet', response.message.balance_amount_in_wallet);
                 }
             }
@@ -44,7 +45,7 @@ frappe.ready(function () {
                     end_date: investment_end_date  // Pass the investment_end_date as the 'end_date' argument
                 },
                 callback: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     if (response.message) { 
                         // Set the fetched total amount to the 'total_amount_invested' field
                         frappe.web_form.set_value('total_amount_invested', response.message.withdral_amount);
@@ -61,6 +62,7 @@ frappe.ready(function () {
                             frappe.web_form.set_value('amount', response.message.withdral_amount);
                             frappe.web_form.set_value('amount_withrowned', response.message.total_amount);
                             frappe.web_form.set_value('interets_withrowned', response.message.total_percent_amount);
+                            
 
                             // frappe.web_form.set_value('interets_withrowned', response.message.total_percent_amount);
                             frappe.web_form.set_df_property('amount_withrowned', 'hidden', 0);

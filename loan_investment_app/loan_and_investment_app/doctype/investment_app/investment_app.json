@@ -10,11 +10,11 @@
   "amended_from",
   "naming_series",
   "posting_date",
+  "party_type",
+  "party",
   "transaction_type",
   "mode_of_payment",
   "pay_to",
-  "party_type",
-  "party",
   "investment_status",
   "withhold_tax",
   "total_interest_amount",
@@ -24,6 +24,8 @@
   "column_break_bpehu",
   "party_name",
   "amount",
+  "deposits",
+  "balance_walet",
   "amount_withrowned",
   "interets_withrowned",
   "remarks",
@@ -34,7 +36,6 @@
   "schedule",
   "investment_schedule",
   "withdral_amount",
-  "balance_walet",
   "withdraw_percen_amount",
   "withdraw_grand_totals",
   "portifolia_account",
@@ -48,7 +49,8 @@
   "amount_in_words",
   "adress",
   "total_interest_earned",
-  "total_amount_invested"
+  "total_amount_invested",
+  "investment_progression"
  ],
  "fields": [
   {
@@ -140,7 +142,9 @@
   {
    "fieldname": "end_date",
    "fieldtype": "Date",
-   "label": "End Date"
+   "label": "End Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "percent_amount",
@@ -178,7 +182,7 @@
   {
    "fieldname": "balance_walet",
    "fieldtype": "Currency",
-   "label": "Balance in Walet"
+   "label": "Amount in the Wallet"
   },
   {
    "fieldname": "account_details_tab",
@@ -240,7 +244,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Principal Amount Withdrawn",
+   "label": "Principal Amount Invested within Investment Period",
    "read_only": 1
   },
   {
@@ -263,7 +267,7 @@
    "fieldname": "investment_period",
    "fieldtype": "Select",
    "label": "Investment Period",
-   "options": "\n6 Months\n1 Year\n2 Years\n3 Years\n4 Years\n5 Years\n6 Years"
+   "options": "\n3 Months\n6 Months\n1 Year\n2 Years\n3 Years\n4 Years\n5 Years\n6 Years"
   },
   {
    "allow_on_submit": 1,
@@ -312,12 +316,26 @@
    "fieldname": "total_interest_annually",
    "fieldtype": "Currency",
    "label": "Total Interest Annually"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "investment_progression",
+   "fieldtype": "Data",
+   "label": "Investment Progression",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "deposits",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Deposits"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-02 10:10:31.308508",
+ "modified": "2025-08-14 12:45:24.589401",
  "modified_by": "Administrator",
  "module": "Loan and Investment App",
  "name": "Investment App",
