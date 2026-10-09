@@ -134,7 +134,11 @@ website_route_rules = [
 doc_events = {
 	"Investment App": {
 		"on_update": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change",
-		"on_submit": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change",
+		"on_submit": [
+			"loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change",
+			"metro_custom_app.custom_api.termii_sms.notify_investment_approved_sms",
+			"metro_custom_app.custom_api.termii_sms.notify_payout_request_sms"
+		],
 		"on_cancel": "loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.update_balances_on_change"
 	},
 	"Journal Entry": {
@@ -149,7 +153,8 @@ doc_events = {
 scheduler_events = {
 	"daily": [
 		"loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.post_monthly_interest",
-		"loan_investment_app.custom_api.desk.sync_contract_lifecycle"
+		"loan_investment_app.custom_api.desk.sync_contract_lifecycle",
+		"loan_investment_app.custom_api.desk.send_maturity_reminders"
 	],
 	"daily_long": [
 		"loan_investment_app.loan_and_investment_app.doctype.investment_app.investment_app.cleanup_failed_interest_postings"
